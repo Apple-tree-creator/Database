@@ -160,7 +160,7 @@ def func1(): # Thread 1
             clear()
             for X in range(len(AthleteIDs)):
                 print(f'How old was {QName[X]} in the year {QYear[X]}?')
-                Rand = random.randint(-15, 15)
+                Rand = random.randint(-20, 20)
                 print(f'If they were {QAns[X]+Rand} the year {QYear[X]+Rand}')
                 # print(f'DEBUG ANS: {QAns[X]}') # Cheat
                 while True:
