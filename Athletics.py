@@ -19,7 +19,7 @@ def func1(): # Thread 1
     while True:
         clear()
         global load
-        print('Available options:\naverage\ngame\nexit\n')
+        print('Available options:\naverage\ngame\nsearch\nexit\n')
         Req = input('Request?: ') # ask for which options
         if 'exit' in  Req:
             clear()
@@ -169,7 +169,37 @@ def func1(): # Thread 1
             os._exit(os.EX_OK) # Exit script
 
         elif 'search' in Req or 'srch' in Req:
-            pass
+            clear()
+            while True:
+                Querys = ('age','name','height','games','sport','team')
+                print('What to search?')
+                print('Possible querys: Team(Country), Age, Name, Height, Games, Sport')
+                Req =  input('Search: ')
+                Req = Req.lower()
+                if Req in Querys:
+                    break
+                else:
+                    print('Search not possible')
+                    input('Press enter to continue...')
+                
+            clear()
+            print(f'What {Req} to search by?')
+            print('Caps matter')
+            Srch = input('Search: ')
+            load = True
+            with sqlite3.connect(DATABASE) as db:
+                cursor = db.cursor()
+                sql = (f'SELECT ID, Name, Year, Age, Height, Team FROM Athletics WHERE {Req} = "{Srch}" ORDER BY ID; ') # SQL Statement
+                cursor.execute(sql) # Run statement
+                results = cursor.fetchall() # Get output of statement
+                load = False
+                clear()
+                print('ID, Country, Year, Age, Height, Name')
+                for X in results:
+                    print(X[0],X[5],X[2],X[3],X[4],X[1])
+            print('ID, Country, Year, Age, Height, Name')
+            input('press enter to continue...')
+
 def func2(): # Loading screen
     global load
     global clear
