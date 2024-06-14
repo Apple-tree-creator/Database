@@ -4,6 +4,7 @@ from threading import Thread # Run multiple scripts at the same time
 import time # pause for a few seconds
 import os # Clear console
 import random # Randint for game
+import platform # Github codespace uses Linux to host
 
 DATABASE = 'BigBertha.db' # The database to pull from
 
@@ -13,7 +14,13 @@ average = 0
 Tallest = 0
 Smallest = 1000
 load = False
-clear = lambda: os.system('cls') # to clear console use 'clear()'
+
+# Linux and Windows use different clear console commands
+# to prevent a ugly console, this checks if the code has the correct Clear command
+if platform.system() == 'Windows':
+    clear = lambda: os.system('cls') # to clear console use 'clear()'
+else:
+    clear = lambda: os.system('clear')
     
 def func1(): # Thread 1
     while True:
@@ -29,12 +36,15 @@ def func1(): # Thread 1
             while True:
                 global DATABASE
                 clear()
-                # Graph not yet ready
+                # Graph not done
                 # Graph = input('Output graph?\ny\nn: ')
                 # if Graph == 'y':
                 #     Graph = True
                 # elif Graph == 'n':
                 #     Graph = False
+                print('What to get average of?')
+                print('Age, Height, Weight')
+                Srch = input()
                 Year1 = input("From what year? (1896 to 2016): ")
                 Year2 = input(f"To what year? ({Year1} to 2016): ")
                 try:
@@ -52,8 +62,8 @@ def func1(): # Thread 1
             with sqlite3.connect(DATABASE) as db:
                 Graph = False
                 cursor = db.cursor()
-                sql = "SELECT Height, Year FROM Athletics WHERE Year >= ? and Year <= ? ORDER BY Year; " # SQL Statement
-                cursor.execute(sql, (Year1,Year2)) # Run statement
+                sql = (f"SELECT {Srch}, Year FROM Athletics WHERE Year >= {Year1} and Year <= {Year2} ORDER BY Year; ") # SQL Statement
+                cursor.execute(sql) # Run statement
                 results = cursor.fetchall() # Get output of statement
                 # Calculating the average
                 global average
@@ -77,8 +87,9 @@ def func1(): # Thread 1
                     average = int(average / Athletes)
                     load = False # Disable loading screen
                     clear()
-                    print(f'Average height is {average}\nShortest height is {Smallest}\nTallest height is {Tallest}')
+                    print(f'Average {Srch} is {average}\nSmallest {Srch} is {Smallest}\nTallest {Srch} is {Tallest}')
 
+                # The graph var is now uselesss
                 elif Graph ==  True:
                     prevyear =  Year1
                     Athletes = 0
@@ -107,6 +118,7 @@ def func1(): # Thread 1
                         Year1 += 1
                 input('Press enter to continue: ')
 
+        # Quiz
         elif 'quiz' in Req or 'game' in Req:
             QName = []
             QYear = []
@@ -168,6 +180,7 @@ def func1(): # Thread 1
             print(f'You got {Correct} out of {Anmount} answers correct')
             os._exit(os.EX_OK) # Exit script
 
+        # Searching Database
         elif 'search' in Req or 'srch' in Req:
             clear()
             while True:
