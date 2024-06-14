@@ -6,7 +6,7 @@ import os # Clear console
 import random # Randint for game
 import platform # Github codespace uses Linux to host
 
-DATABASE = 'BigBertha.db' # The database to pull from
+DATABASE = 'Database.db' # The database to pull from
 
 # set variables
 Athletes = 0 
