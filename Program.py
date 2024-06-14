@@ -42,9 +42,18 @@ def func1(): # Thread 1
                 #     Graph = True
                 # elif Graph == 'n':
                 #     Graph = False
-                print('What to get average of?')
-                print('Age, Height, Weight')
-                Srch = input()
+                while True:
+                    clear()
+                    Querys = ('age','height','weight')
+                    print('What to get average of?')
+                    print('Age, Height, Weight')
+                    Srch = input()
+                    Srch = Srch.lower()
+                    if Srch in Querys:
+                        break
+                    else:
+                        print('Search not possible')
+                        input('Press enter to continue...')
                 Year1 = input("From what year? (1896 to 2016): ")
                 Year2 = input(f"To what year? ({Year1} to 2016): ")
                 try:
@@ -87,7 +96,7 @@ def func1(): # Thread 1
                     average = int(average / Athletes)
                     load = False # Disable loading screen
                     clear()
-                    print(f'Average {Srch} is {average}\nSmallest {Srch} is {Smallest}\nTallest {Srch} is {Tallest}')
+                    print(f'Average {Srch} is {average}\nSmallest {Srch} is {Smallest}\Largest {Srch} is {Tallest}')
 
                 # The graph var is now uselesss
                 elif Graph ==  True:
